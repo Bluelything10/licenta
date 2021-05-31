@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "./Sidebar.css";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import AddIcon from '@material-ui/icons/Add';
 import SidebarChannel from './SidebarChannel';
 import SignalCellularAltIcon from '@material-ui/icons/SignalCellularAlt';
@@ -16,6 +17,8 @@ import db, { auth } from "./firebase";
 
 function Sidebar() {
     const user = useSelector(selectUser);
+    const [slide, setSlide] = useState(false)
+    const [slider2, setSlider2] = useState(false)
     const [ channels, setChannels] = useState([]);
 
     useEffect(() => {
@@ -38,33 +41,42 @@ function Sidebar() {
             });
         }
     }
-
+  
     return (
         <div className="sidebar">    
             <div className="sidebar__top">
                 <h3>First Server</h3>
-                <ExpandMoreIcon />
+                <button 
+                        type="button" 
+                        className="btn-slide" 
+                        onClick={()=>setSlider2(!slider2)}
+                >{slider2 ? <ExpandMoreIcon/> :<ExpandLessIcon/> }</button>
             </div>
-            <div className="sidebar__channels">
-                <div className="sidebar__channelsHeader">
-                    <div className="sidebar__header">
-                        <ExpandMoreIcon />
-                        <h4>Text Channels</h4>
+            {slider2 ? <div className="sidebar__channels">
+                    <div className="sidebar__channelsHeader">
+                        <div className="sidebar__header">
+                            <button 
+                            type="button" 
+                            className="btn-slide" 
+                            onClick={()=>setSlide(!slide)}
+                            >{slide ? <ExpandMoreIcon/> :<ExpandLessIcon/> }</button>
+                            <h4>Text Channels</h4>
+                        </div>
+
+                        <AddIcon onClick={handleAddChannel} className="sidebar__addChannel" />
                     </div>
-
-                    <AddIcon onClick={handleAddChannel} className="sidebar__addChannel" />
-                </div>
-
-                <div className="sidebar__channelsList">
-                    {channels.map(({ id, channel }) => (
-                        <SidebarChannel 
-                        key={id}
-                        id={id}
-                        channelName={channel.channelName} 
-                        />
-                    ))}
-                </div>
-            </div>
+                { slide ? <div className="sidebar__channelsList">
+                        {channels.map(({ id, channel }) => (
+                            <SidebarChannel 
+                            key={id}
+                            id={id}
+                            channelName={channel.channelName} 
+                            />
+                        ))}
+                    </div>:null
+                }
+                </div>:<div  className="sidebar__channels"></div>
+            }
             <div className="sidebar__voice">
                 <SignalCellularAltIcon 
                 className="sidebar__voiceIcon" 

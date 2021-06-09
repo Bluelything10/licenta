@@ -21,6 +21,8 @@ function Chat() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [emoji, addEmoji] = useState("");
+  const [open,setOpen]=useState(false)
+ 
 
   useEffect(() => {
     if (channelId) {
@@ -52,11 +54,13 @@ function Chat() {
     sym.forEach(el => codesArray.push('0x' + el))
     let emojis = String.fromCodePoint(...codesArray)
     addEmoji(emojis)
+    setInput(input+emoji)
+    
   }
-
+ 
   return (
-    <div className="chat">
-      <ChatHeader channelName={channelName} />
+    <div className="chat"  >
+      <ChatHeader channelName={channelName}  />
 
       <div className="chat__messages">
         {messages.map((message) => (
@@ -90,12 +94,15 @@ function Chat() {
         <div className="chat__inputIcons">
           <CardGiftcardIcon fontSize="large" />
           <GifIcon fontSize="large" />
+          {open?
           <Picker 
-            showPreview={false} 
-            style={{ position: 'absolute', top:'35vh', right:'7vh' }}
-            onClick={ addEmojis }
-          />
-          <EmojiEmotionsIcon fontSize="large" />
+          
+          showPreview={false} 
+          style={{ position: 'fixed', bottom:'10%', right:'2vh' }}
+          onClick={ addEmojis }
+          />:null}
+          
+          <button className="emoji-btn" onClick={()=>setOpen(!open)} type="button"><EmojiEmotionsIcon  fontSize="large" /></button>
         </div>
       </div>
     </div>

@@ -13,6 +13,7 @@ import db from "./firebase";
 import firebase from "firebase";
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
+import Modal from '@material-ui/core/Modal';
 
 function Chat() {
   const user = useSelector(selectUser);
@@ -22,7 +23,13 @@ function Chat() {
   const [messages, setMessages] = useState([]);
   const [emoji, addEmoji] = useState("");
   const [open,setOpen]=useState(false)
- 
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     if (channelId) {
@@ -94,15 +101,21 @@ function Chat() {
         <div className="chat__inputIcons">
           <CardGiftcardIcon fontSize="large" />
           <GifIcon fontSize="large" />
-          {open?
+          <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+         >
           <Picker 
           
           showPreview={false} 
           style={{ position: 'fixed', bottom:'10%', right:'2vh' }}
           onClick={ addEmojis }
-          />:null}
+          />
+          </Modal>
           
-          <button className="emoji-btn" onClick={()=>setOpen(!open)} type="button"><EmojiEmotionsIcon  fontSize="large" /></button>
+          <button className="emoji-btn" onClick={handleOpen} type="button"><EmojiEmotionsIcon  fontSize="large" /></button>
         </div>
       </div>
     </div>

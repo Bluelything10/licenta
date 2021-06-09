@@ -11,6 +11,8 @@ import { selectChannelId, selectChannelName } from "./features/appSlice";
 import { selectUser } from "./features/userSlice";
 import db from "./firebase";
 import firebase from "firebase";
+import 'emoji-mart/css/emoji-mart.css'
+import { Picker } from 'emoji-mart'
 
 function Chat() {
   const user = useSelector(selectUser);
@@ -18,6 +20,7 @@ function Chat() {
   const channelName = useSelector(selectChannelName);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
+  const [emoji, addEmoji] = useState("");
 
   useEffect(() => {
     if (channelId) {
@@ -42,6 +45,14 @@ function Chat() {
 
     setInput("");
   };
+
+  const addEmojis = e => {
+    let sym = e.unified.split('-')
+    let codesArray = []
+    sym.forEach(el => codesArray.push('0x' + el))
+    let emojis = String.fromCodePoint(...codesArray)
+    addEmoji(emojis)
+  }
 
   return (
     <div className="chat">
@@ -79,6 +90,11 @@ function Chat() {
         <div className="chat__inputIcons">
           <CardGiftcardIcon fontSize="large" />
           <GifIcon fontSize="large" />
+          <Picker 
+            showPreview={false} 
+            style={{ position: 'absolute', top:'35vh', right:'7vh' }}
+            onClick={ addEmojis }
+          />
           <EmojiEmotionsIcon fontSize="large" />
         </div>
       </div>

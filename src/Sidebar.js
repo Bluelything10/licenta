@@ -45,7 +45,7 @@ function Sidebar() {
     return (
         <div className="sidebar">    
             <div className="sidebar__top">
-                <h3>First Server</h3>
+                <h3>General Server</h3>
                 <button 
                         type="button" 
                         className="btn-slide" 

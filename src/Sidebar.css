@@ -58,6 +58,10 @@
   border: 1px solid gray;
 }
 
+.sidebar__profile > .MuiAvatar-root:hover{
+  cursor: pointer;
+}
+
 .sidebar__voiceInfo {
   flex: 1;
   padding: 10px;

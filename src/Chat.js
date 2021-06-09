@@ -53,6 +53,7 @@ function Chat() {
     });
 
     setInput("");
+    addEmoji("")
   };
 
   const addEmojis = e => {

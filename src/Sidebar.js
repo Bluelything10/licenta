@@ -14,12 +14,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import { useSelector } from 'react-redux';
 import { selectUser } from './features/userSlice';
 import db, { auth } from "./firebase";
-
 import {selectBackground, selectFont, selectColor} from "./features/themeSlice.js"
-
-import {selectTheme} from "./features/themeSlice.js"
-
-
 import clsx from 'clsx'
 import {makeStyles} from "@material-ui/core"
 
@@ -42,18 +37,15 @@ import {makeStyles} from "@material-ui/core"
    icons:{
        padding:10,    
    },
-   avatar:{
-       position:'absolute',
-       
-   },
+  
    info1:{
     flex: 1,
     padding:' 10px',
-    left:'7%',
+    
     fontColor:'#fffff',
    },
    info2:{
-        left:'17%',
+        
         fontColor:'#fffff',
     } ,
     text:{
@@ -63,11 +55,12 @@ import {makeStyles} from "@material-ui/core"
 }))
 
 function Sidebar() {
+    
     const user = useSelector(selectUser);
     const [slide, setSlide] = useState(false)
     const [slider2, setSlider2] = useState(false)
     const [ channels, setChannels] = useState([]);
-    const [background,setBackground]=useState()
+    const [background,setBackground]=useState("")
     const [color, setColor] = useState("")
     const [font, setFont] = useState("")
 
@@ -77,8 +70,7 @@ function Sidebar() {
 
 
 
-    const usedTheme=useSelector(selectTheme)
-    console.log(usedTheme)
+    
 
     useEffect(() => {
         db.collection("channels").onSnapshot((snapshot) =>
@@ -101,13 +93,10 @@ function Sidebar() {
      
     }, [backgroundS, colorS, fontS])
 
-    console.log(setBackground, setColor, setFont);
 
-       setBackground(selectTheme.background)
-       setColor(selectTheme.color)
-       setFont(selectTheme.font)
+       
      
-    }, [selectTheme])
+    
 
 
     const handleAddChannel = () => {
@@ -123,7 +112,7 @@ function Sidebar() {
     
     return (
         <div className="sidebar">    
-            <div className="sidebar__top">
+            <div className="sidebar__top" style={{ backgroundImage: `url(${background})`,backgroundSize: '500px 200px'}}>
                 <h3>General Server</h3>
                 <button 
                         type="button" 
@@ -170,14 +159,15 @@ function Sidebar() {
                     <CallIcon />
                 </div>
             </div>
-            <div className={classes.sidebarProfile}>
-                <Avatar className={classes.avatar} onClick={() => auth.signOut()} src={user.photo} />
-                <img src={background} className={classes.image1} alt=""/>
-                <div className={clsx(classes.avatar, classes.info1)} >
+            <div style={{ backgroundImage: `url(${background})` ,backgroundSize: '500px 200px' }} className={classes.sidebarProfile}>
+                <Avatar  onClick={() => auth.signOut()} src={user.photo} />
+              
+                
+                <div className={classes.info1} >
                     <h3 className={classes.text}>{user.displayName}</h3>
                     <p className={classes.text}>#{user.uid.substring(0,4)}</p>
                 </div>
-                <div className={clsx(classes.avatar, classes.info2)} >
+                <div className={ classes.info2} >
                     <MicIcon className={clsx(classes.icons, classes.text)} />
                     <HeadsetIcon className={clsx(classes.icons, classes.text)} />
                     <SettingsIcon  className={clsx(classes.icons, classes.text)}/>

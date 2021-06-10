@@ -10,7 +10,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 26px;
   background-color: #2f3135;
   color: white;
   border-bottom: 3px solid #26282c;
@@ -58,7 +58,7 @@
   border: 1px solid gray;
 }
 
-.sidebar__profile > .MuiAvatar-root:hover{
+.sidebar__profile > .MuiAvatar-root:hover {
   cursor: pointer;
 }
 

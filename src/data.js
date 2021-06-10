@@ -10,7 +10,7 @@ const styles=[
     {
       id:1,
       background:image1,
-      color:'',
+      color:'#ffffff',
       font:'Amatic SC' 
       
     },

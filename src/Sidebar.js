@@ -14,12 +14,61 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import { useSelector } from 'react-redux';
 import { selectUser } from './features/userSlice';
 import db, { auth } from "./firebase";
+import {selectBackground, selectFont, selectColor} from "./features/themeSlice.js"
+import clsx from 'clsx'
+import {makeStyles} from "@material-ui/core"
+
+
+ const useStylesTheme = makeStyles((theme) => ({
+    sidebarProfile:{
+       cursor:'pointer',
+       display:'flex',
+       alignItems:'center',
+       fontFamily: 'Baloo Tammudu 2 cursive', 
+       height:'10%',
+       border:'1px solid #B7B6C1',
+       fontColor:'#fffff',
+   },
+   image1:{
+       width:'100%',
+       height:'100%',
+       objectFit:'cover',
+   },
+   icons:{
+       padding:10,    
+   },
+   avatar:{
+       position:'absolute',
+       
+   },
+   info1:{
+    flex: 1,
+    padding:' 10px',
+    left:'7%',
+    fontColor:'#fffff',
+   },
+   info2:{
+        left:'17%',
+        fontColor:'#fffff',
+    } ,
+    text:{
+        fontFamily:'Shadows Into Light',
+        color:'#ffffff'
+    }     
+}))
 
 function Sidebar() {
     const user = useSelector(selectUser);
     const [slide, setSlide] = useState(false)
     const [slider2, setSlider2] = useState(false)
     const [ channels, setChannels] = useState([]);
+    const [background,setBackground]=useState()
+    const [color, setColor] = useState("")
+    const [font, setFont] = useState("")
+    const backgroundS = useSelector(selectBackground);
+    const fontS = useSelector(selectFont);
+    const colorS = useSelector(selectColor);
+
 
     useEffect(() => {
         db.collection("channels").onSnapshot((snapshot) =>
@@ -30,7 +79,18 @@ function Sidebar() {
                 }))
             )
         );
+       
     }, [])
+  
+   
+    useEffect(() => {
+       setBackground(backgroundS)
+       setColor(colorS)
+       setFont(fontS)
+     
+    }, [backgroundS, colorS, fontS])
+
+    console.log(setBackground, setColor, setFont);
 
     const handleAddChannel = () => {
         const channelName = prompt("Enter a new channel name");
@@ -41,7 +101,8 @@ function Sidebar() {
             });
         }
     }
-  
+    const classes=useStylesTheme()
+    
     return (
         <div className="sidebar">    
             <div className="sidebar__top">
@@ -91,16 +152,17 @@ function Sidebar() {
                     <CallIcon />
                 </div>
             </div>
-            <div className="sidebar__profile">
-                <Avatar onClick={() => auth.signOut()} src={user.photo} />
-                <div className="sidebar__profileInfo">
-                    <h3>{user.displayName}</h3>
-                    <p>#{user.uid.substring(0,4)}</p>
+            <div className={classes.sidebarProfile}>
+                <Avatar className={classes.avatar} onClick={() => auth.signOut()} src={user.photo} />
+                <img src={background} className={classes.image1} alt=""/>
+                <div className={clsx(classes.avatar, classes.info1)} >
+                    <h3 className={classes.text}>{user.displayName}</h3>
+                    <p className={classes.text}>#{user.uid.substring(0,4)}</p>
                 </div>
-                <div className="sidebar__profileIcons">
-                    <MicIcon />
-                    <HeadsetIcon />
-                    <SettingsIcon />
+                <div className={clsx(classes.avatar, classes.info2)} >
+                    <MicIcon className={clsx(classes.icons, classes.text)} />
+                    <HeadsetIcon className={clsx(classes.icons, classes.text)} />
+                    <SettingsIcon  className={clsx(classes.icons, classes.text)}/>
                 </div>
             </div>
         </div>

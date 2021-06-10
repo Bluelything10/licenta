@@ -14,6 +14,7 @@ import firebase from "firebase";
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
 import Modal from '@material-ui/core/Modal';
+import GiftMenu from "./GiftMenu.js"
 
 function Chat() {
   const user = useSelector(selectUser);
@@ -23,6 +24,7 @@ function Chat() {
   const [messages, setMessages] = useState([]);
   const [emoji, addEmoji] = useState("");
   const [open,setOpen]=useState(false)
+  const [openGift,setOpenGift]=useState(false)
   const handleOpen = () => {
     setOpen(true);
   };
@@ -64,18 +66,32 @@ function Chat() {
     addEmoji(emojis)
     setInput(input+emoji)
     
+  };
+  const handleOpenModel=()=>{
+
+        if(openGift){
+          setOpenGift(false)
+
+        }else{
+          setOpenGift(true)
+        }
+     
   }
+ 
+
+
  
   return (
     <div className="chat"  >
       <ChatHeader channelName={channelName}  />
 
       <div className="chat__messages">
-        {messages.map((message) => (
+        {messages.map((message,index) => (
           <Message
             timestamp={message.timestamp}
             message={message.message}
             user={message.user}
+            key={index}
           />
         ))}
       </div>
@@ -100,8 +116,16 @@ function Chat() {
         </form>
 
         <div className="chat__inputIcons">
-          <CardGiftcardIcon fontSize="large" />
-          <GifIcon fontSize="large" />
+          <button type="button" onClick={handleOpenModel} className="emoji-btn" ><CardGiftcardIcon fontSize="large" /></button>
+          <Modal
+          open={openGift}
+          onClose={handleOpenModel}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+         >
+          <GiftMenu/>
+         </Modal>
+          <button className="emoji-btn"><GifIcon fontSize="large" /></button>
           <Modal
           open={open}
           onClose={handleClose}

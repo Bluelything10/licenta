@@ -1,3 +1,4 @@
+
 import { createSlice } from '@reduxjs/toolkit';
 
 export const themeSlice = createSlice({
@@ -23,3 +24,27 @@ export const selectFont = (state) => state.themes.font;
 export const selectColor = (state) => state.themes.color;
 
 export default themeSlice.reducer;
+
+import { createSlice } from '@reduxjs/toolkit'
+import styles from "../data.js"
+const initialState=styles;
+const themeState=createSlice({
+    name:'themes',
+    initialState,
+    reducers:{
+       themeSelected(state,action){
+           const theme=action.payload
+           
+           state=theme
+         
+       }
+
+    }
+})
+
+export const {themeSelected} =themeState.actions
+export const selectTheme=(state)=>state.themes.themeSelected
+
+
+export default themeState.reducer;
+

@@ -14,7 +14,11 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import { useSelector } from 'react-redux';
 import { selectUser } from './features/userSlice';
 import db, { auth } from "./firebase";
+
+import {selectBackground, selectFont, selectColor} from "./features/themeSlice.js"
+
 import {selectTheme} from "./features/themeSlice.js"
+
 
 import clsx from 'clsx'
 import {makeStyles} from "@material-ui/core"
@@ -66,8 +70,16 @@ function Sidebar() {
     const [background,setBackground]=useState()
     const [color, setColor] = useState("")
     const [font, setFont] = useState("")
+
+    const backgroundS = useSelector(selectBackground);
+    const fontS = useSelector(selectFont);
+    const colorS = useSelector(selectColor);
+
+
+
     const usedTheme=useSelector(selectTheme)
     console.log(usedTheme)
+
     useEffect(() => {
         db.collection("channels").onSnapshot((snapshot) =>
             setChannels(
@@ -82,11 +94,21 @@ function Sidebar() {
   
    
     useEffect(() => {
+
+       setBackground(backgroundS)
+       setColor(colorS)
+       setFont(fontS)
+     
+    }, [backgroundS, colorS, fontS])
+
+    console.log(setBackground, setColor, setFont);
+
        setBackground(selectTheme.background)
        setColor(selectTheme.color)
        setFont(selectTheme.font)
      
     }, [selectTheme])
+
 
     const handleAddChannel = () => {
         const channelName = prompt("Enter a new channel name");

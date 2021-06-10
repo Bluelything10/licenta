@@ -22,9 +22,6 @@ const useStyles = makeStyles((theme) => ({
         flexDirection:'row'
 
 
-
-
-
     },
     container:{
         width:'230px',

@@ -7,7 +7,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import SendIcon from '@material-ui/icons/Send';
 import HelpIcon from '@material-ui/icons/Help';
 import {selectBackground, selectFont, selectColor} from "./features/themeSlice.js"
-import {selectTheme} from "./features/themeSlice.js"
 import { useSelector } from 'react-redux';
 
 function ChatHeader({ channelName }) {
@@ -28,10 +27,10 @@ function ChatHeader({ channelName }) {
  
  
     return (
-        <div style={{ backgroundImage: `url(${background})` }} className="chatHeader">
+        <div style={{ backgroundImage: `url(${background})`, backgroundPosition: 'center' }} className="chatHeader">
             <div className="chatHeader__left">
                 <h3 style={{color : `${color}` }}>
-                    <span style={{color : `${color}` }} className="chatHeader__hash">
+                    <span style={{color : `${color}`, fontFamily: `${font}` }} className="chatHeader__hash">
                         #
                     </span>
                     {channelName}

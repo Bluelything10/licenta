@@ -7,51 +7,42 @@ import SidebarChannel from './SidebarChannel';
 import SignalCellularAltIcon from '@material-ui/icons/SignalCellularAlt';
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import CallIcon from "@material-ui/icons/Call";
-import { Avatar } from "@material-ui/core";
+import { Avatar, Tooltip } from "@material-ui/core";
 import MicIcon from '@material-ui/icons/Mic';
 import HeadsetIcon from '@material-ui/icons/Headset';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { useSelector } from 'react-redux';
 import { selectUser } from './features/userSlice';
 import db, { auth } from "./firebase";
-import {selectBackground, selectFont, selectColor} from "./features/themeSlice.js"
-import clsx from 'clsx'
-import {makeStyles} from "@material-ui/core"
+import {selectBackground, selectFont, selectColor} from "./features/themeSlice.js";
+import {makeStyles} from "@material-ui/core";
 
 
  const useStylesTheme = makeStyles((theme) => ({
     sidebarProfile:{
-       cursor:'pointer',
        display:'flex',
        alignItems:'center',
+       justifyContent: 'space-between',
        fontFamily: 'Baloo Tammudu 2 cursive', 
        height:'10%',
        border:'1px solid #B7B6C1',
-       fontColor:'#fffff',
-   },
-   image1:{
-       width:'100%',
-       height:'100%',
-       objectFit:'cover',
+       fontColor:'#2f3135',
    },
    icons:{
        padding:10,    
+       cursor: 'pointer',
    },
-  
    info1:{
     flex: 1,
     padding:' 10px',
-    
-    fontColor:'#fffff',
+    fontColor:'#2f3135',
    },
    info2:{
-        
-        fontColor:'#fffff',
-    } ,
-    text:{
-        fontFamily:'Shadows Into Light',
-        color:'#ffffff'
-    }     
+        fontColor:'#2f3135',
+    } ,  
+    avatar:{
+        cursor: "pointer",
+    }
 }))
 
 function Sidebar() {
@@ -112,30 +103,34 @@ function Sidebar() {
     
     return (
         <div className="sidebar">    
-            <div className="sidebar__top" style={{ backgroundImage: `url(${background})`,backgroundSize: '500px 200px'}}>
-                <h3>General Server</h3>
+            <div className="sidebar__top" 
+                 style={{ backgroundImage: `url(${background})`, backgroundPosition: 'center', 
+                 color : `${color}`,
+                 font : `${font}`
+                }}>
+                <h3 style={{fontFamily: `${font}` }}>General Server</h3>
                 <button 
                         type="button" 
                         className="btn-slide" 
                         onClick={()=>setSlider2(!slider2)}
-                >{slider2 ? <ExpandMoreIcon/> :<ExpandLessIcon/> }</button>
+                >{slider2 ? <ExpandMoreIcon className={classes.avatar} style={{color : `${color}` }} /> :<ExpandLessIcon className={classes.avatar} style={{color : `${color}` }} /> }</button>
             </div>
-            {slider2 ? <div className="sidebar__channels">
+            {slider2 ? <div className="sidebar__channels" >
                     <div className="sidebar__channelsHeader">
                         <div className="sidebar__header">
                             <button 
                             type="button" 
                             className="btn-slide" 
                             onClick={()=>setSlide(!slide)}
-                            >{slide ? <ExpandMoreIcon/> :<ExpandLessIcon/> }</button>
-                            <h4>Text Channels</h4>
+                            >{slide ? <ExpandMoreIcon className={classes.avatar}/> :<ExpandLessIcon  className={classes.avatar}/> }</button>
+                            <h4 style={{fontFamily: `${font}` }}>Text Channels</h4>
                         </div>
 
                         <AddIcon onClick={handleAddChannel} className="sidebar__addChannel" />
                     </div>
-                { slide ? <div className="sidebar__channelsList">
+                { slide ? <div className="sidebar__channelsList" style={{color : `${color}` }}>
                         {channels.map(({ id, channel }) => (
-                            <SidebarChannel 
+                            <SidebarChannel style={{font: `${font}` }}
                             key={id}
                             id={id}
                             channelName={channel.channelName} 
@@ -143,7 +138,7 @@ function Sidebar() {
                         ))}
                     </div>:null
                 }
-                </div>:<div  className="sidebar__channels"></div>
+                </div>:<div  className="sidebar__channels" ></div>
             }
             <div className="sidebar__voice">
                 <SignalCellularAltIcon 
@@ -159,18 +154,19 @@ function Sidebar() {
                     <CallIcon />
                 </div>
             </div>
-            <div style={{ backgroundImage: `url(${background})` ,backgroundSize: '500px 200px' }} className={classes.sidebarProfile}>
-                <Avatar  onClick={() => auth.signOut()} src={user.photo} />
-              
+            <div style={{ backgroundImage: `url(${background})` , backgroundPosition: 'center', color : `${color}` }} className={classes.sidebarProfile}>
+                <Tooltip title="Log Out">
+                    <Avatar className={classes.avatar} onClick={() => auth.signOut()} src={user.photo} />
+                </Tooltip>
                 
                 <div className={classes.info1} >
-                    <h3 className={classes.text}>{user.displayName}</h3>
-                    <p className={classes.text}>#{user.uid.substring(0,4)}</p>
+                    <h3 style={{color : `${color}`, fontFamily: `${font}`}} >{user.displayName}</h3>
+                    <p style={{color : `${color}`, fontFamily: `${font}` }} >#{user.uid.substring(0,4)}</p>
                 </div>
                 <div className={ classes.info2} >
-                    <MicIcon className={clsx(classes.icons, classes.text)} />
-                    <HeadsetIcon className={clsx(classes.icons, classes.text)} />
-                    <SettingsIcon  className={clsx(classes.icons, classes.text)}/>
+                    <MicIcon style={{color : `${color}` }} className={classes.icons} />
+                    <HeadsetIcon style={{color : `${color}` }} className={classes.icons} />
+                    <SettingsIcon style={{color : `${color}` }}  className={classes.icons}/>
                 </div>
             </div>
         </div>

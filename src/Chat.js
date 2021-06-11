@@ -120,8 +120,6 @@ function Chat() {
           <Modal
           open={openGift}
           onClose={handleOpenModel}
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
          >
           <GiftMenu/>
          </Modal>
@@ -129,8 +127,6 @@ function Chat() {
           <Modal
           open={open}
           onClose={handleClose}
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
          >
           <Picker 
           

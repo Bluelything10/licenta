@@ -73,5 +73,10 @@
 .emoji-btn {
   background: none;
   border: none;
-  color: #ffffff;
+  color: gray;
+  cursor: pointer;
+}
+
+.emoji-btn :hover {
+  color:white;
 }

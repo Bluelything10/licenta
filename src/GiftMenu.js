@@ -1,8 +1,8 @@
 import React,{useState} from 'react'
 import styles from "./data.js"
 import {Box,makeStyles} from "@material-ui/core"
-import { useDispatch, useSelector } from 'react-redux'
-import {themeSelected} from "./features/themeSlice.js"
+import { useDispatch } from 'react-redux'
+import { themeSelected } from "./features/themeSlice.js"
 const useStyles = makeStyles((theme) => ({
     
     root:{
@@ -44,13 +44,11 @@ const useStyles = makeStyles((theme) => ({
  
 }))
 function GiftMenu() {
-    const [theme,setTheme]=useState("")
+    const [theme, setTheme]=useState("");
     const classes=useStyles();
-    
+    const dispatch = useDispatch();
 
-    
-    
-    const dispatch = useDispatch()
+
     const onSaveThemeClicked=(item)=>{
         setTheme(item)
         dispatch(themeSelected({id:theme.id, background:theme.background,color:theme.color,font:theme.font}))

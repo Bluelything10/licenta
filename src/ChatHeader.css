@@ -43,6 +43,10 @@
     border-radius: 3px;
     padding: 3px;
   }
+
+  .chatHeader__search > input::placeholder{
+    color: #ffffff
+  }
   
   .chatHeader__search > input {
     background: transparent;

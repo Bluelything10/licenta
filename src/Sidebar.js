@@ -16,6 +16,7 @@ import { selectUser } from './features/userSlice';
 import db, { auth } from "./firebase";
 import {selectBackground, selectFont, selectColor} from "./features/themeSlice.js";
 import {makeStyles} from "@material-ui/core";
+import clsx from 'clsx';
 
 
  const useStylesTheme = makeStyles((theme) => ({
@@ -25,7 +26,7 @@ import {makeStyles} from "@material-ui/core";
        justifyContent: 'space-between',
        fontFamily: 'Baloo Tammudu 2 cursive', 
        height:'10%',
-       border:'1px solid #B7B6C1',
+       border:'1px solid gray',
        fontColor:'#2f3135',
    },
    icons:{
@@ -39,9 +40,13 @@ import {makeStyles} from "@material-ui/core";
    },
    info2:{
         fontColor:'#2f3135',
+        padding:'10px',
     } ,  
     avatar:{
         cursor: "pointer",
+    },
+    textColor:{
+        color:'#BEBEBE',
     }
 }))
 
@@ -54,7 +59,6 @@ function Sidebar() {
     const [background,setBackground]=useState("")
     const [color, setColor] = useState("")
     const [font, setFont] = useState("")
-
     const backgroundS = useSelector(selectBackground);
     const fontS = useSelector(selectFont);
     const colorS = useSelector(selectColor);
@@ -113,16 +117,28 @@ function Sidebar() {
                         type="button" 
                         className="btn-slide" 
                         onClick={()=>setSlider2(!slider2)}
-                >{slider2 ? <ExpandMoreIcon className={classes.avatar} style={{color : `${color}` }} /> :<ExpandLessIcon className={classes.avatar} style={{color : `${color}` }} /> }</button>
+                >{slider2 ? <ExpandMoreIcon 
+                                className={clsx(classes.avatar, classes.textColor)} style={{color : `${color}` }} 
+                            /> :
+                            <ExpandLessIcon 
+                                className={clsx(classes.avatar, classes.textColor)} style={{color : `${color}` }} 
+                            /> }
+                </button>
             </div>
             {slider2 ? <div className="sidebar__channels" >
                     <div className="sidebar__channelsHeader">
                         <div className="sidebar__header">
                             <button 
-                            type="button" 
-                            className="btn-slide" 
-                            onClick={()=>setSlide(!slide)}
-                            >{slide ? <ExpandMoreIcon className={classes.avatar}/> :<ExpandLessIcon  className={classes.avatar}/> }</button>
+                                type="button" 
+                                className="btn-slide" 
+                                onClick={()=>setSlide(!slide)}
+                            >{slide ? <ExpandMoreIcon
+                                        className={clsx(classes.avatar, classes.textColor)}
+                                      /> :
+                                      <ExpandLessIcon  className={clsx(classes.avatar, classes.textColor)}
+                                      /> }
+                            </button>
+
                             <h4 style={{fontFamily: `${font}` }}>Text Channels</h4>
                         </div>
 
@@ -154,16 +170,18 @@ function Sidebar() {
                     <CallIcon />
                 </div>
             </div>
-            <div style={{ backgroundImage: `url(${background})` , backgroundPosition: 'center', color : `${color}` }} className={classes.sidebarProfile}>
+            <div style={{ backgroundImage: `url(${background})` , backgroundPosition: 'center', color : `${color}` }} 
+                 className={classes.sidebarProfile}
+            >
                 <Tooltip title="Log Out">
                     <Avatar className={classes.avatar} onClick={() => auth.signOut()} src={user.photo} />
                 </Tooltip>
                 
-                <div className={classes.info1} >
+                <div className={clsx(classes.info1, classes.textColor)}  >
                     <h3 style={{color : `${color}`, fontFamily: `${font}`}} >{user.displayName}</h3>
                     <p style={{color : `${color}`, fontFamily: `${font}` }} >#{user.uid.substring(0,4)}</p>
                 </div>
-                <div className={ classes.info2} >
+                <div className={ clsx(classes.info2, classes.textColor)} >
                     <MicIcon style={{color : `${color}` }} className={classes.icons} />
                     <HeadsetIcon style={{color : `${color}` }} className={classes.icons} />
                     <SettingsIcon style={{color : `${color}` }}  className={classes.icons}/>

@@ -11,10 +11,10 @@ import { selectChannelId, selectChannelName } from "./features/appSlice";
 import { selectUser } from "./features/userSlice";
 import db from "./firebase";
 import firebase from "firebase";
-import 'emoji-mart/css/emoji-mart.css'
-import { Picker } from 'emoji-mart'
+import 'emoji-mart/css/emoji-mart.css';
+import { Picker } from 'emoji-mart';
 import Modal from '@material-ui/core/Modal';
-import GiftMenu from "./GiftMenu.js"
+import GiftMenu from "./GiftMenu.js";
 
 function Chat() {
   const user = useSelector(selectUser);
@@ -23,8 +23,9 @@ function Chat() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [emoji, addEmoji] = useState("");
-  const [open,setOpen]=useState(false)
-  const [openGift,setOpenGift]=useState(false)
+  const [openGift, setOpenGift]=useState(false);
+  const [open, setOpen]=useState(false);
+  
   const handleOpen = () => {
     setOpen(true);
   };
@@ -64,9 +65,10 @@ function Chat() {
     sym.forEach(el => codesArray.push('0x' + el))
     let emojis = String.fromCodePoint(...codesArray)
     addEmoji(emojis)
-    setInput(input+emoji)
+    setInput(input + emoji)
     
   };
+  
   const handleOpenModel=()=>{
 
         if(openGift){
@@ -86,7 +88,7 @@ function Chat() {
       <ChatHeader channelName={channelName}  />
 
       <div className="chat__messages">
-        {messages.map((message,index) => (
+        {messages.map((message, index) => (
           <Message
             timestamp={message.timestamp}
             message={message.message}
@@ -116,7 +118,10 @@ function Chat() {
         </form>
 
         <div className="chat__inputIcons">
-          <button type="button" onClick={handleOpenModel} className="emoji-btn" ><CardGiftcardIcon fontSize="large" /></button>
+          <button type="button" 
+                  onClick={handleOpenModel} 
+                  className="emoji-btn" ><CardGiftcardIcon fontSize="large" />
+          </button>
           <Modal
           open={openGift}
           onClose={handleOpenModel}
@@ -127,16 +132,18 @@ function Chat() {
           <Modal
           open={open}
           onClose={handleClose}
-         >
-          <Picker 
-          
-          showPreview={false} 
-          style={{ position: 'fixed', bottom:'10%', right:'2vh' }}
-          onClick={ addEmojis }
-          />
+          >
+            <Picker 
+              showPreview={false} 
+              style={{ position: 'fixed', bottom:'10%', right:'4%' }}
+              onClick={ addEmojis }
+            />
           </Modal>
-          
-          <button className="emoji-btn" onClick={handleOpen} type="button"><EmojiEmotionsIcon  fontSize="large" /></button>
+          <button className="emoji-btn" 
+                  onClick={handleOpen} 
+                  type="button">
+                    <EmojiEmotionsIcon  fontSize="large" />
+          </button>
         </div>
       </div>
     </div>

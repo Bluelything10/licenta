@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import styles from "./data.js"
 import {Box,makeStyles} from "@material-ui/core"
 import { useDispatch } from 'react-redux'
